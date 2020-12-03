@@ -1,0 +1,183 @@
+*********************************  GUIDE COMPLET ********************************************
+
+1.)*********Installer python et un éditeur de code sur la machine. référence :https://www.google.com/ 
+
+
+2.)*********créer le module annee_bissextile.py et table_multiplication.py
+
+3.)*********mettre les modules dans un package 
+    a.)*** on ajoute au dossier qui contient les modules le fichier __init__.py qui est indispensable
+
+            l' exemple de code __init__.py:
+            #!/usr/bin/env python
+            # -*- coding: utf-8 -*-
+            
+            """ 
+                Il existe 2 modules dans ce package:
+                ---- annee_bissextile() pour vérifier si la valeur saisie est bissextile ou pas
+                -----multiplication() pour retourner la table de multiplication de la valeur saisie.
+
+            """
+            
+            __version__ = "0.0.1"
+
+            from .annee_bissextile import annee_bissextile
+            from .table_multiplication import multiplication
+
+        b.)*** dans le fichier __init__.py, on va rajouter:
+            from .annee_bissextile import annee_bissextile
+            Ainsi, l’utilisateur pourra faire: 
+            from master_package_astousock import annee_bissextile
+
+4.)*********Configuration pour uploader
+    a.)*** on crée le fichier README.md qui est un fichier texte ordinnaire
+        assurez-vous de mettez les choses suivante:
+            -A quoi sert la lib.
+            -Comment l’installer.
+            -Un exemple concret d’utilisation.
+            -La licence d’utilisation.
+            -Un lien vers la documentation si elle existe.
+    b.)*** on crée le fichier Setup.py
+        C’est la partie difficile. Le fichier setup.py contient une fonction qui 
+        va magiquement installer votre librairie, et il faut lui passer des paramètres et l’appeler.
+         Le problème c’est que cette fonction compte 34 (à ma connaissance) arguments.
+        Vous pouvez mettre n’importe quel code Python dans le setup.py, mais généralement la fonction 
+        setup() suffit.
+        Je vais mettre dans ce setup.py les paramètres que vous utiliserez les plus souvent:
+                    #!/usr/bin/env python
+            # -*- coding: utf-8 -*-
+
+            from setuptools import setup, find_packages
+            # notez qu'on import la lib
+
+            import master_package_astousock
+
+            # Ceci n'est qu'un appel de fonction. Mais il est très long
+            # et il comporte beaucoup de paramètres
+            setup(           
+                # le nom de votre bibliothèque, tel qu'il apparaitre sur pypi
+                name='master_package_astousock',           
+                # la version du code
+                version=master_package_astousock.__version__,
+            
+                # Liste les packages à insérer dans la distribution
+                # plutôt que de le faire à la main, on utilise la foncton
+                # find_packages() de setuptools qui va cherche tous les packages
+                # python recursivement dans le dossier courant.
+                # C'est pour cette raison que l'on a tout mis dans un seul dossier:
+                # on peut ainsi utiliser cette fonction facilement
+                packages=find_packages(),
+            
+                # votre pti nom 
+                author="Astou Lo Sock",
+            
+                # Votre email, sachant qu'il sera publique visible, avec tous les risques
+                # que ça implique.
+                author_email="astoulosock25@gmail.com",
+            
+                # Une description courte
+                description="Il existe 2 modules dans ce package:
+                annee_bissextile() pour vérifier si la valeur saisie est bissextile ou pas 
+                multiplication() pour retourner la table de multiplication de la valeur saisie",
+            
+                # Une description longue, sera affichée pour présenter la lib
+                # Généralement on dump le README ici
+                long_description=open('README.md').read(),
+            
+                # Vous pouvez rajouter une liste de dépendances pour votre lib
+                # et même préciser une version. A l'installation, Python essayera de
+                # les télécharger et les installer.
+                #
+                # Ex: ["gunicorn", "docutils >= 0.3", "lxml==0.5a7"]
+                #
+                # Dans notre cas on en a pas besoin, donc je le commente, mais je le
+                # laisse pour que vous sachiez que ça existe car c'est très utile.
+                # install_requires= ,
+            
+                # Active la prise en compte du fichier MANIFEST.in
+                include_package_data=True,
+            
+                # Une url qui pointe vers la page officielle de votre lib
+                url='https://github.com/Astoulo/master-package-astoulosock',
+            
+                # Il est d'usage de mettre quelques metadata à propos de sa lib
+                # Pour que les robots puissent facilement la classer.
+                # La liste des marqueurs autorisées est longue:
+                # https://pypi.python.org/pypi?%3Aaction=list_classifiers.
+                #
+                # Il n'y a pas vraiment de règle pour le contenu. Chacun fait un peu
+                # comme il le sent. Il y en a qui ne mettent rien.
+                classifiers=[
+                    "Programming Language :: Python",
+                    "Development Status :: 1 - Planning",
+                    "License :: OSI Approved",
+                    "Natural Language :: French",
+                    "Operating System :: OS Independent",
+                    "Programming Language :: Python :: 2.7",
+                    "Topic :: Communications",
+                ],
+            
+            
+                # C'est un système de plugin, mais on s'en sert presque exclusivement
+                # Pour créer des commandes, comme "django-admin".
+                # Par exemple, si on veut créer la fabuleuse commande "annee_bissextile-sm", on
+                # va faire pointer ce nom vers la fonction annee_bissextiler(). La commande sera
+                # créé automatiquement. 
+                # La syntaxe est "nom-de-commande-a-creer = package.module:fonction".
+                entry_points = {
+                    'console_scripts': [
+                        'annee_bissextile-sm = master_package_astousock.annee_bissextile:annee_bissextile',
+                        'multiplication-sm = master_package_astousock.table_multiplication:multiplication',
+
+                    ],
+                },
+            
+                # A fournir uniquement si votre licence n'est pas listée dans "classifiers"
+                # ce qui est notre cas
+                license="WTFPL",
+            
+                # Il y a encore une chiée de paramètres possibles, mais avec ça vous
+                # couvrez 90% des besoins
+            
+            )
+
+5.)*********Tester si tout marche bien en tapant: python setup.py install
+6.)*********Publier sur Pypi et Générer des archives de distribution
+    a.)***  L'étape suivante consiste à générer des packages de distribution.
+    Ce sont des archives qui sont téléchargées dans l'index du package et peuvent être installées 
+    par pip .Assurez-vous que les dernières versions de setuptoolset wheel installées:
+    python -m pip install --user --upgrade setuptools wheel
+
+    b.)***  Maintenant, exécutez cette commande à partir du même répertoire où setup.py se trouve:
+    python setup.py sdist bdist_wheel
+
+6.)*********Téléchargement des archives de distribution
+Enfin, il est temps de télécharger votre package dans l'index des packages Python!
+    a.)***La première chose à faire est de créer un compte sur Test PyPI est une instance distincte de l'index 
+    de package destinée aux tests et à l'expérimentation.Pour créer un compte, 
+    accédez à https://test.pypi.org/account/register/
+    b.)***  Maintenant que vous êtes inscrit, vous pouvez utiliser twine pour télécharger les packages de distribution. 
+    Vous devrez installer Twine: python -m pip install --user --upgrade twine
+    c.)*** Une fois installé, exécutez Twine pour télécharger toutes les archives sous dist:
+    python -m twine upload --repository testpypi dist/*
+
+8.)*********Creating Virtual Environments
+ a.)*** create: python -m venv myenv
+ b.)*** activate: myenv\Scripts\activate (sous windows) ou source myenv/bin/activate (sous linux)
+
+9.)*********Installation de votre package nouvellement téléchargé/
+pip install -i https://test.pypi.org/simple/ master-package-astousock==0.0.1
+Assurez-vous de spécifier votre nom d'utilisateur dans le nom du package!
+pip devrait installer le package de Test PyPI 
+
+9.)*********Etape finale 
+    lancer python avec la ligne de commande puis:
+    a.)*** importer les modules :
+       -pour la table de multiplication: from  master_package_astousock import multiplication
+       -pour l'année bissextile: from  master_package_astousock import annee_bissextile
+    b.)*** Puis appeler le nom de la module que vous voulez utiliser:
+    -pour la table de multiplication: multiplication()
+    -pour l'année bissextile: annee_bissextile()
+
+***********************************  GUIDE COMPLET ********************************************
+
