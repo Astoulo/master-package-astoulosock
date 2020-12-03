@@ -2,7 +2,7 @@ Création de Packages
 ========================================================
 
 Il existe 2 modules dans ce package:
-    ---- annee_bissextile pour retourner si la valeur saisie est bissextile ou pas 
+    ---- annee_bissextile pour vérifier si la valeur saisie est bissextile ou pas 
     -----table_multiplication pour retourner la table de multiplication de la valeur saisie.
 
 
