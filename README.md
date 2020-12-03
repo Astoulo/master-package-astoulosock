@@ -1,4 +1,4 @@
-SM Lib - Proclame la bonne parole de sieurs Sam et Max
+Création de Packages
 ========================================================
 
 Il existe 2 modules dans ce package:
