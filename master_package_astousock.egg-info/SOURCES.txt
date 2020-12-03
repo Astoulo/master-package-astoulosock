@@ -1,0 +1,11 @@
+MANIFEST.in
+README.md
+setup.py
+master_package_astousock/__init__.py
+master_package_astousock/annee_bissextile.py
+master_package_astousock/table_multiplication.py
+master_package_astousock.egg-info/PKG-INFO
+master_package_astousock.egg-info/SOURCES.txt
+master_package_astousock.egg-info/dependency_links.txt
+master_package_astousock.egg-info/entry_points.txt
+master_package_astousock.egg-info/top_level.txt

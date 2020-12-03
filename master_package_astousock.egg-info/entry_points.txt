@@ -1,0 +1,4 @@
+[console_scripts]
+annee_bissextile-sm = master_package_astousock.annee_bissextile:annee_bissextile
+multiplication-sm = master_package_astousock.table_multiplication:multiplication
+
